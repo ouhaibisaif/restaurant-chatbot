@@ -1,0 +1,358 @@
+:root {
+  color: #1e2521;
+  background: #f7f4ef;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.app {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(28, 37, 33, 0.64), rgba(28, 37, 33, 0.42)),
+    url("./assets/restaurant-bg.svg") center/cover fixed;
+}
+
+.topbar {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-end;
+  padding: 28px clamp(16px, 4vw, 48px) 18px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  color: #f4d28d;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(2rem, 6vw, 4.25rem);
+  line-height: 0.98;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tabs button,
+.secondary,
+.reservation-form button,
+.chat-input button {
+  align-items: center;
+  background: #f4d28d;
+  color: #1e2521;
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.tabs button {
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tabs button.active {
+  background: #f4d28d;
+  color: #1e2521;
+}
+
+.content {
+  width: min(1160px, calc(100% - 28px));
+  margin: 0 auto;
+  padding-bottom: 32px;
+}
+
+.summary {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.summary div,
+.summary span {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.summary p {
+  margin: 0;
+  color: #56615a;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(30, 37, 33, 0.1);
+  border-radius: 8px;
+  padding: clamp(16px, 3vw, 24px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.panel-header h2 {
+  margin-bottom: 4px;
+}
+
+.panel-header p {
+  margin-bottom: 0;
+  color: #667069;
+}
+
+.panel-header select {
+  min-height: 40px;
+  border-radius: 8px;
+  border: 1px solid #cfd6d0;
+  padding: 0 10px;
+  background: white;
+}
+
+.chat-panel {
+  min-height: 640px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.messages {
+  min-height: 420px;
+  max-height: 55vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 4px;
+}
+
+.message {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  max-width: min(760px, 92%);
+}
+
+.message p {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  line-height: 1.5;
+  background: #eef3ef;
+  overflow-wrap: anywhere;
+}
+
+.message.user {
+  align-self: flex-end;
+}
+
+.message.user p {
+  background: #1f6f5b;
+  color: white;
+}
+
+.message.assistant svg {
+  margin-top: 11px;
+  color: #1f6f5b;
+  flex: 0 0 auto;
+}
+
+.chat-input {
+  display: grid;
+  grid-template-columns: 1fr 48px;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.chat-input input,
+.reservation-form input,
+.reservation-form textarea {
+  width: 100%;
+  border: 1px solid #cfd6d0;
+  border-radius: 8px;
+  min-height: 46px;
+  padding: 10px 12px;
+  background: white;
+}
+
+.menu-view {
+  display: grid;
+  gap: 14px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.dish-card {
+  border: 1px solid #dce2dd;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffdf8;
+  display: grid;
+  gap: 8px;
+}
+
+.dish-card div {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.dish-card h3,
+.dish-card p {
+  margin-bottom: 0;
+}
+
+.dish-card small {
+  color: #667069;
+}
+
+.dish-card strong {
+  color: #1f6f5b;
+}
+
+.badge {
+  background: #dcefe8;
+  color: #1f6f5b;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.reservation-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.reservation-form label {
+  display: grid;
+  gap: 6px;
+  color: #38423c;
+  font-weight: 700;
+}
+
+.reservation-form .wide {
+  grid-column: 1 / -1;
+}
+
+.reservation-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.reservation-form button {
+  width: fit-content;
+}
+
+.status {
+  margin: 14px 0 0;
+  color: #1f6f5b;
+  font-weight: 700;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e5e9e6;
+}
+
+th {
+  color: #56615a;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 760px) {
+  .topbar,
+  .summary,
+  .panel-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tabs button {
+    width: 100%;
+  }
+
+  .reservation-form {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-panel {
+    min-height: 560px;
+  }
+}
