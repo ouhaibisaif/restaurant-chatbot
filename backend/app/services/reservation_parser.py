@@ -22,7 +22,11 @@ def parse_reservation_details(message: str) -> dict:
     if phone_match:
         details["phone"] = phone_match.group(1).strip()
 
-    people_match = PEOPLE_RE.search(message)
+    # Strip phone, date and time first so their digits aren't read as the party size.
+    people_text = message
+    for pattern in (PHONE_RE, DATE_RE, TIME_RE):
+        people_text = pattern.sub(" ", people_text)
+    people_match = PEOPLE_RE.search(people_text)
     if people_match:
         details["people"] = int(people_match.group(1))
 

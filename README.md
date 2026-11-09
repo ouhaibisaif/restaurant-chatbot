@@ -1,6 +1,6 @@
 # Restaurant Chatbot
 
-![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+[![tests](https://github.com/ouhaibisaif/restaurant-chatbot/actions/workflows/tests.yml/badge.svg)](https://github.com/ouhaibisaif/restaurant-chatbot/actions/workflows/tests.yml) ![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=black)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
