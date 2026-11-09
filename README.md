@@ -1,10 +1,32 @@
 # Restaurant Chatbot
 
-A local AI restaurant assistant built with React, FastAPI, SQLite, Ollama, and Qwen.
+![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=black)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-The sample restaurant is **Le Jardin Bleu**. Customers can ask about the menu, opening hours, allergens, delivery, FAQs, and reservations. Reservation requests are saved locally in SQLite and can be viewed from a simple admin page.
+**A restaurant assistant that answers questions about the menu, hours, allergens and delivery, and takes table reservations, in English, French and Arabic. It runs on a laptop with a local Qwen model.**
 
-The project is designed to run fully on a laptop with no paid APIs and no exposed secrets.
+- **Local-first, no paid APIs.** React + FastAPI + SQLite, with `qwen2.5:7b` (or `3b`) served by Ollama.
+- **EN / FR / AR.** The model is told to reply in the user's language, the injection redirect exists in all three, and the reservation flow picks up names, party sizes and booking keywords in each.
+- **Prompt-injection guardrails in code, not just in the prompt** ([`security.py`](backend/app/services/security.py), [`schemas.py`](backend/app/models/schemas.py), [`ollama_service.py`](backend/app/services/ollama_service.py)):
+  - messages capped at 1,000 characters; only the last 6 history turns are sent to the model
+  - input is HTML-escaped and whitespace-collapsed before it reaches the prompt
+  - a regex filter catches "ignore previous instructions", "reveal the system prompt", "execute a command" and similar, and returns a safe redirect *before* the model is called
+  - rate limits: 30 requests/min on chat, 20/min on reservations
+  - the system prompt is restricted to the restaurant context, and reservations are written to SQLite by app code, not by the model
+
+**Run it** (Ollama on the host, then Docker for the rest):
+
+```bash
+ollama pull qwen2.5:7b && ollama serve
+docker compose up --build   # UI http://localhost:5173 · API http://localhost:8000/health
+```
+
+At work I ship the same pattern with Django REST + Angular on Azure.
+
+The sample restaurant is **Le Jardin Bleu**. Reservation requests are saved locally in SQLite and can be viewed from a simple admin page.
 
 ## Features
 
@@ -21,29 +43,18 @@ The project is designed to run fully on a laptop with no paid APIs and no expose
 - Input validation and basic rate limiting
 - Mobile-friendly UI
 
-## Screenshots
-
-Placeholder screenshots to add after running the app:
-
-- Chat window
-- Menu page
-- Reservation form
-- Admin reservations page
-
 ## Architecture
 
-```text
-React frontend
-  |
-  | REST API
-  v
-FastAPI backend
-  |       |
-  |       +-- SQLite reservations database
-  |
-  +-- Ollama HTTP API
-        |
-        +-- qwen2.5:7b / qwen2.5:3b
+```mermaid
+flowchart LR
+    UI["React UI (Vite)<br/>chat · menu · reservation form · admin"] -->|REST| API["FastAPI routes<br/>Pydantic validation · rate limit"]
+    API -->|POST /chat| SVC["ollama_service<br/>sanitize · injection check"]
+    SVC -->|injection detected| RED["safe redirect<br/>(EN/FR/AR, no model call)"]
+    SVC --> PARSE["reservation_parser<br/>(regex, EN/FR/AR)"]
+    PARSE -->|all fields present| DB[("SQLite<br/>reservations")]
+    SVC -->|system prompt + restaurant context<br/>+ last 6 turns| OL["Ollama · Qwen 2.5<br/>(on the host)"]
+    API -->|POST /reservation · GET /admin/reservations| DB
+    API -->|GET /menu| DATA["sample_data.py"]
 ```
 
 Project layout:
